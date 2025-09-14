@@ -5,13 +5,16 @@
   "projectType": "application",
   "tags": [],
   "targets": {
+    "build": {
+      "dependsOn": ["generate-types"]
+    },
     "serve": {
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "dependsOn": ["build"],
       "options": {
         "buildTarget": "net-auth:build",
-        "runBuildTargetDependencies": false
+        "runBuildTargetDependencies": true
       },
       "configurations": {
         "development": {
@@ -20,6 +23,24 @@
         "production": {
           "buildTarget": "net-auth:build:production"
         }
+      }
+    },
+    "generate-types": {
+      "command": "prisma generate",
+      "options": {
+        "cwd": "apps/net-auth"
+      }
+    },
+    "migrate-prisma": {
+      "command": "prisma migrate dev",
+      "options": {
+        "cwd": "apps/net-auth"
+      }
+    },
+    "studio-prisma": {
+      "command": "prisma studio",
+      "options": {
+        "cwd": "apps/net-auth"
       }
     }
   }
